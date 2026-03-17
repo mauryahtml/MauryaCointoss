@@ -1,1 +1,147 @@
 # MauryaCointoss
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Maurya Coin Toss</title>
+
+<style>
+
+body{
+background:#0b0b0b;
+color:white;
+font-family:Arial;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+height:100vh;
+overflow:hidden;
+}
+
+h1{
+font-size:35px;
+margin-bottom:40px;
+letter-spacing:2px;
+}
+
+.coin{
+width:180px;
+height:180px;
+position:relative;
+transform-style:preserve-3d;
+cursor:pointer;
+}
+
+.side{
+position:absolute;
+width:100%;
+height:100%;
+border-radius:50%;
+display:flex;
+justify-content:center;
+align-items:center;
+font-size:34px;
+font-weight:bold;
+backface-visibility:hidden;
+border:8px solid #ffd700;
+background:radial-gradient(circle,#ffd700,#c99700);
+color:black;
+}
+
+.tail{
+transform:rotateY(180deg);
+}
+
+.confetti{
+position:fixed;
+width:12px;
+height:12px;
+top:-20px;
+animation:fall linear forwards;
+}
+
+@keyframes fall{
+to{
+transform:translateY(110vh) rotate(720deg);
+}
+}
+
+</style>
+</head>
+
+<body>
+
+<h2><b>🪙✨Maurya Coin Toss✨</b></h2>
+<h3><b><u>🪙Flip Coin...👇...🪙</u></b></h3>
+
+<div class="coin" id="coin">
+
+<div class="side">HEAD</div>
+<div class="side tail">TAIL</div>
+
+</div>
+
+<audio id="sound">
+<source src="https://assets.mixkit.co/sfx/preview/mixkit-metal-coin-spin-1585.mp3">
+</audio>
+
+<script>
+
+let coin=document.getElementById("coin")
+let sound=document.getElementById("sound")
+
+let rotation=0
+
+coin.onclick=function(){
+
+sound.currentTime=0
+sound.play()
+
+let outcome=Math.random()<0.5?"HEAD":"TAIL"
+
+let spins=(Math.floor(Math.random()*6)+10)*360
+
+if(outcome=="HEAD"){
+rotation+=spins
+}
+else{
+rotation+=spins+180
+}
+
+coin.style.transition="transform 3.5s"
+coin.style.transform="rotateY("+rotation+"deg)"
+
+setTimeout(()=>{
+confetti()
+},3500)
+
+}
+
+function confetti(){
+
+for(let i=0;i<60;i++){
+
+let paper=document.createElement("div")
+
+paper.className="confetti"
+
+paper.style.left=Math.random()*100+"vw"
+
+paper.style.background="hsl("+Math.random()*360+"deg,100%,50%)"
+
+paper.style.animationDuration=(Math.random()*2+2)+"s"
+
+document.body.appendChild(paper)
+
+setTimeout(()=>{paper.remove()},4000)
+
+}
+
+}
+
+
+</script>
+
+</body>
+</html>
