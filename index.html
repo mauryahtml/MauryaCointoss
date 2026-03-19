@@ -2,31 +2,35 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Maurya Coin Toss-Toss a coin Online</title>
+<title>Maurya Coin Toss</title>
 <meta name="google-site-verification" content="_bFyUJhhIuiSBghdhAwHUgt_78Ymaa2-ZHf5t17Rm0s" />
 <style>
 
 body{
-background:#0b0b0b;
-color:white;
+margin:0;
 font-family:Arial;
+background:skyblue;
+color:black;
+}
+
+/* TOP SECTION */
+.top{
+height:45vh;
 display:flex;
 flex-direction:column;
 align-items:center;
 justify-content:center;
-height:100vh;
-overflow:hidden;
+border-bottom:2px solid #222;
 }
 
 h1{
-font-size:35px;
-margin-bottom:40px;
-letter-spacing:2px;
+margin-bottom:20px;
 }
 
+/* COIN */
 .coin{
-width:180px;
-height:180px;
+width:160px;
+height:160px;
 position:relative;
 transform-style:preserve-3d;
 cursor:pointer;
@@ -40,10 +44,10 @@ border-radius:50%;
 display:flex;
 justify-content:center;
 align-items:center;
-font-size:34px;
+font-size:30px;
 font-weight:bold;
 backface-visibility:hidden;
-border:8px solid #ffd700;
+border:6px solid gold;
 background:radial-gradient(circle,#ffd700,#c99700);
 color:black;
 }
@@ -52,10 +56,18 @@ color:black;
 transform:rotateY(180deg);
 }
 
+/* BOTTOM CONTENT */
+.bottom{
+padding:20px;
+line-height:1.6;
+font-size:16px;
+}
+
+/* CONFETTI */
 .confetti{
 position:fixed;
-width:12px;
-height:12px;
+width:10px;
+height:10px;
 top:-20px;
 animation:fall linear forwards;
 }
@@ -71,17 +83,35 @@ transform:translateY(110vh) rotate(720deg);
 
 <body>
 
-<h2><b>🪙✨Maurya Coin Toss - Toss a coin online...✨</b></h2>
-<h3><b><u>🪙Flip Coin...👇...🪙</u></b></h3>
+<div class="top">
+
+<h2><b><u>🪙✨Maurya Coin Toss✨🪙</u></b></h2>
+<h3>👇✨Flip coin...👇🪙✨</h3>
 
 <div class="coin" id="coin">
-
 <div class="side">HEAD</div>
 <div class="side tail">TAIL</div>
+</div>
 
 </div>
 
-<audio id="sound">
+<div class="bottom">
+
+<h2>About Coin Toss</h2>
+
+<p>
+Coin toss एक simple random process है जिसमें HEAD और TAIL आने की probability बराबर होती है।
+आप इस tool का use decision लेने, game खेलने या probability समझने के लिए कर सकते हैं।
+</p>
+
+<p>
+इस Maurya Coin Toss में realistic animation, और celebration effects दिए गए हैं जिससे यह एक mini game जैसा feel देता है|🪙✨🪙
+</p>
+
+</div>
+
+<!-- SOUND FIX -->
+<audio id="sound" preload="auto">
 <source src="https://assets.mixkit.co/sfx/preview/mixkit-metal-coin-spin-1585.mp3">
 </audio>
 
@@ -92,10 +122,11 @@ let sound=document.getElementById("sound")
 
 let rotation=0
 
-coin.onclick=function(){
+coin.addEventListener("click", function(){
 
+// SOUND FIX (mobile)
 sound.currentTime=0
-sound.play()
+sound.play().catch(()=>{})
 
 let outcome=Math.random()<0.5?"HEAD":"TAIL"
 
@@ -103,42 +134,38 @@ let spins=(Math.floor(Math.random()*6)+10)*360
 
 if(outcome=="HEAD"){
 rotation+=spins
-}
-else{
+}else{
 rotation+=spins+180
 }
 
-coin.style.transition="transform 3.5s"
+coin.style.transition="transform 3s ease-out"
 coin.style.transform="rotateY("+rotation+"deg)"
 
 setTimeout(()=>{
 confetti()
-},3500)
+},3000)
 
-}
+})
 
 function confetti(){
 
-for(let i=0;i<60;i++){
+for(let i=0;i<50;i++){
 
-let paper=document.createElement("div")
+let el=document.createElement("div")
 
-paper.className="confetti"
+el.className="confetti"
 
-paper.style.left=Math.random()*100+"vw"
+el.style.left=Math.random()*100+"vw"
+el.style.background="hsl("+Math.random()*360+"deg,100%,50%)"
+el.style.animationDuration=(Math.random()*2+2)+"s"
 
-paper.style.background="hsl("+Math.random()*360+"deg,100%,50%)"
+document.body.appendChild(el)
 
-paper.style.animationDuration=(Math.random()*2+2)+"s"
-
-document.body.appendChild(paper)
-
-setTimeout(()=>{paper.remove()},4000)
+setTimeout(()=>el.remove(),4000)
 
 }
 
 }
-
 
 </script>
 
